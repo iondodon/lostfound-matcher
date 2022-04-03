@@ -1,0 +1,17 @@
+Needed:
+    access to database - maybe a view, not to have access to all database
+    access to the table that hass access to all the data about the posts
+
+Provided:
+    GET /api/v1/posts/{LOST|FOUND}/{postId}/matches?&maxMatches=<maxMatches> 
+        -> returns json: 
+        [
+            {
+                "postId": 123,
+                "matchScore": 0.345
+            },
+            ...
+        ]
+
+LOST | FOUND - current post type
+postId - id of the current post

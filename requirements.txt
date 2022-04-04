@@ -1,1 +1,7 @@
+scikit-learn
 Flask
+trafilatura
+summa
+git+https://github.com/LIAAD/yake
+keyBERT
+ipywidgets

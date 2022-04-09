@@ -1,0 +1,2 @@
+insert into mydb.posts(id, image, author_id, `status`, `type`, created_date, address, contacts, reward, details, breed, gender, age, eye_color, fur_color, special_signs, `name`, nationality, species)
+ values(1, 'image url', 1, 'status', 'type', CURDATE(), 'address', 'contacst', 12, 'details', 'breed', 'gender', 'age', 'eye color', 'fur color', 'special signs', 'name', 'nationality', 'species');

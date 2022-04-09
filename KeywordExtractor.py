@@ -26,6 +26,7 @@ class KeywordExtractor:
 
     def extract_keywords(self, text, num_keywords=10):
         text_clean = self.__clean_text(text)
+        text_clean = self.__exclude_words(text_clean)
         text_clean_stemmed = self.__stemm_text(text_clean)
         
         vectorizer = CountVectorizer()
@@ -44,7 +45,13 @@ class KeywordExtractor:
 
         for j in range(tfidf.shape[0]):
             print("Keywords of article", str(j+1), words[tfidf[j, :].argsort()[-num_keywords:][::-1]])
+
+        return words[tfidf[0, :].argsort()[-num_keywords:][::-1]]
     
+    def __exclude_words(self, text):
+        words_to_exclude = ["lost", "found"]
+        return " ".join([w for w in text.split() if w not in words_to_exclude])
+
     def __clean_text(self, text):
         text_clean = text.replace("\n", " ").replace("\'", "")
         text_clean = sub(r'[^\w\s]', '', text_clean)

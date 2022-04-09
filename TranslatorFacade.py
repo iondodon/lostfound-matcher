@@ -1,6 +1,6 @@
 from googletrans import Translator
 
-class Translator:
+class TranslatorFacade:
     def __init__(self, to_lang):
         self.to_lang = to_lang
         self.translator = Translator()

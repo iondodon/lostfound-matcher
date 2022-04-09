@@ -18,3 +18,8 @@ class SqlEngine:
         session = Session()
         posts = session.query(Post).all()
         return posts
+    
+    def getPost_by_id(delf, id):
+        session = Session()
+        post = session.query(Post).filter_by(id=id).first()
+        return post

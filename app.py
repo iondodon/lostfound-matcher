@@ -1,8 +1,8 @@
 from flask import Flask, request
-from Models import Base, Post
-from SqlEngine import SqlEngine
-from TranslatorFacade import TranslatorFacade
-from KeywordExtractor import KeywordExtractor
+from src.Models import Base, Post
+from src.SqlEngine import SqlEngine
+from src.TranslatorFacade import TranslatorFacade
+from src.KeywordExtractor import KeywordExtractor
 import json
 
 

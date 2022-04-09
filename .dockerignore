@@ -1,0 +1,10 @@
+__pycache__/
+.venv/
+sqls/
+.git/
+.gitignore
+wiki_tfidf_stems.csv
+wiki_tfidf_terms.csv
+words.csv
+integrations.txt
+Dockerfile

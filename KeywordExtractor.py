@@ -35,7 +35,7 @@ class KeywordExtractor:
         tf = log(tf + 1)
 
         tfidf = tf.copy()
-        words = array(vectorizer.get_feature_names())
+        words = array(vectorizer.get_feature_names_out())
 
         with tqdm(total=self.num_lines) as pbar:
             for k in tqdm(self.dict_idf.keys()):

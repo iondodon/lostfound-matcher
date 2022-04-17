@@ -1,6 +1,6 @@
 from flask import Flask, request
-from Models import Base, Post
-from SqlEngine import SqlEngine
+import numpy
+from MongoDB import MongoDB
 from TranslatorFacade import TranslatorFacade
 from KeywordExtractor import KeywordExtractor
 import json
@@ -9,22 +9,31 @@ import json
 matcher_app = Flask(__name__)
 
 
-sqlEngien = SqlEngine()
 keywordExtractor = KeywordExtractor()
-translator = TranslatorFacade('en')
+# translator = TranslatorFacade('en')
+mongo = MongoDB()
 
 
-print("=================Ready!!!=================")
-
+print("Starting server...")
 
 @matcher_app.route('/api/v1/posts/<postId>/matches', methods=['GET'])
-def home(postId):
+def matches(postId):
     args = request.args
     _maxMatches = args.get('maxMatches')
 
-    post = sqlEngien.getPost_by_id(postId)
-    translated_post_details = translator.translate(post.details)
-    keywords = keywordExtractor.extract_keywords(translated_post_details)
-
     # convert keywords to json string 
-    return json.dumps(keywords.tolist() )
+    return json.dumps()
+
+
+@matcher_app.route('/api/v1/posts/process', methods=['POST'])
+def process_post():
+    post = request.get_json()
+    keywords = keywordExtractor.extract_keywords(post['details']).tolist()
+    mongo.update_ai_post_data({'post_uuid': post['post_uuid'], 'keywords': keywords})
+    return post
+
+
+@matcher_app.route('/api/v1/posts/<postUuid>', methods=['DELETE'])
+def delete_posts(postUuid):
+    mongo.delete_post_by_uuid(postUuid)
+    return '', 204

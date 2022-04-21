@@ -1,20 +1,13 @@
 from flask import Flask, request
-import numpy
-from MongoDB import MongoDB
-from TranslatorFacade import TranslatorFacade
-from KeywordExtractor import KeywordExtractor
+from Service import Service
 import json
 
 
 matcher_app = Flask(__name__)
+service = Service()
 
 
-keywordExtractor = KeywordExtractor()
-# translator = TranslatorFacade('en')
-mongo = MongoDB()
-
-
-print("Starting server...")
+print("Listening...")
 
 @matcher_app.route('/api/v1/posts/<postId>/matches', methods=['GET'])
 def matches(postId):
@@ -28,12 +21,11 @@ def matches(postId):
 @matcher_app.route('/api/v1/posts/process', methods=['POST'])
 def process_post():
     post = request.get_json()
-    keywords = keywordExtractor.extract_keywords(post['details']).tolist()
-    mongo.update_ai_post_data({'post_uuid': post['post_uuid'], 'keywords': keywords})
+    service.process_post(post)
     return post
 
 
 @matcher_app.route('/api/v1/posts/<postUuid>', methods=['DELETE'])
 def delete_posts(postUuid):
-    mongo.delete_post_by_uuid(postUuid)
+    service.delete_post_by_uuid(postUuid)
     return '', 204

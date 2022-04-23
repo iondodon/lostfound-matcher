@@ -9,11 +9,9 @@ service = Service()
 
 print("Listening...")
 
-@matcher_app.route('/api/v1/posts/<postId>/matches', methods=['GET'])
-def matches(postId):
-    args = request.args
-    _maxMatches = args.get('maxMatches')
 
+@matcher_app.route('/api/v1/posts/<postUuid>/matches', methods=['GET'])
+def matches(postUuid):
     # convert keywords to json string 
     return json.dumps()
 

@@ -28,3 +28,8 @@ def delete_posts(postUuid):
     if service.delete_post_by_uuid(postUuid):
         return "Deleted post with uuid: " + postUuid
     return "Post with uuid: " + postUuid + " cannot be deleted"
+
+
+if __name__ == "__main__":
+    from waitress import serve
+    serve(matcher_app, host="0.0.0.0", port=5000)

@@ -10,3 +10,4 @@ mysqlclient # sudo apt install libmysqlclient-dev neesed to be installed
 SQLAlchemy
 googletrans==3.1.0a0
 pymongo
+waitress

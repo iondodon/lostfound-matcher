@@ -8,7 +8,7 @@ class MongoDB:
 
 
     def __init__(self):
-        self.client = MongoClient("localhost", 27017)
+        self.client = MongoClient("mongodb", 27017)
         self.db = self.client['lostfound-matcher-db']
         self.ai_posts_data = self.db['ai_posts_data']
         self.matching_pairs = self.db['matching_pairs']

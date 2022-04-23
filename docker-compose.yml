@@ -1,0 +1,20 @@
+services:
+  
+  lostfound-matcher:
+    build:
+      context: ./
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo
+    restart: always
+    environment:
+      - MONGO_INITDB_DATABASE=lostfound-matcher-db
+    volumes:
+      - ./data:/data/db
+      - ./mongo_config:/data/configdb
+    ports:
+      - "27017:27017"

@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+import json
 
 
 class MongoDB:
@@ -17,6 +18,9 @@ class MongoDB:
             {'$set': ai_post},
             upsert=True
         )
+
+    def get_ai_post_data(self, post_uuid):
+        return self.ai_posts_data.find_one({'post_uuid': post_uuid})
 
     def delete_post_by_uuid(self, post_uuid):
         self.ai_posts_data.delete_one({'post_uuid': post_uuid})

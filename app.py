@@ -20,7 +20,7 @@ def matches(post_uuid):
 def process_post():
     post = request.get_json()
     service.process_post(post)
-    return post
+    return json.dumps({'status': 'ok'})
 
 
 @matcher_app.route('/api/v1/posts/<postUuid>', methods=['DELETE'])

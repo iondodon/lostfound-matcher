@@ -47,7 +47,8 @@ class Service:
         ai_post.update({'status': 'searching_keywords', 'keywords': []})
         self.mongo.update_ai_post_data(ai_post)
         
-        keywords = self.keywordExtractor.extract_keywords(post['details']).tolist()
+        en_details = self.lang_translator.translate(post['details'])
+        keywords = self.keywordExtractor.extract_keywords(en_details).tolist()
         ai_post.update({'status': 'keywords_just_set', 'keywords': keywords})
         self.mongo.update_ai_post_data(ai_post)
 

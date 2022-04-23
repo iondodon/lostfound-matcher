@@ -1,5 +1,4 @@
 from pymongo import MongoClient
-import json
 
 
 class MongoDB:

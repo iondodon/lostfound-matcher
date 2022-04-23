@@ -27,5 +27,6 @@ def process_post():
 
 @matcher_app.route('/api/v1/posts/<postUuid>', methods=['DELETE'])
 def delete_posts(postUuid):
-    service.delete_post_by_uuid(postUuid)
-    return '', 204
+    if service.delete_post_by_uuid(postUuid):
+        return "Deleted post with uuid: " + postUuid
+    return "Post with uuid: " + postUuid + " cannot be deleted"

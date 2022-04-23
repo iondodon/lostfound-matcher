@@ -39,3 +39,8 @@ class MongoDB:
             'post_uuid_0': post_uuid_0,
             'post_uuid_1': post_uuid_1
         })
+
+    
+    def delete_matching_pairs(self, post_uuid):
+        self.matching_pairs.delete_many({'post_uuid_0': post_uuid})
+        self.matching_pairs.delete_many({'post_uuid_1': post_uuid})

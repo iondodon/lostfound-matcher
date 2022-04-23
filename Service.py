@@ -17,18 +17,24 @@ class Service:
         pass
 
 
-    def delete_post_by_uuid(self, postUuid):
-        ai_post = self.mongo.get_ai_post_data(postUuid)
+    def delete_post_by_uuid(self, post_uuid):
+        ai_post = self.mongo.get_ai_post_data(post_uuid)
 
         if ai_post is None:
-            print("Post with uuid: " + postUuid + " not found")
+            print("Post with uuid: " + post_uuid + " not found")
             return False
         if ai_post['status'] != 'processed':
             print("Can't delete post with status: " + ai_post['status'])
             return False
 
-        self.mongo.delete_post_by_uuid(postUuid)
+        self.delete_matching_pairs(post_uuid)
+        self.mongo.delete_post_by_uuid(post_uuid)
+        
         return True
+
+    
+    def delete_matching_pairs(self, post_uuid):
+        self.mongo.delete_matching_pairs(post_uuid)
 
 
     def process_post(self, post):

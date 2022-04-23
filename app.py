@@ -7,7 +7,7 @@ matcher_app = Flask(__name__)
 service = Service()
 
 
-print("Listening...")
+print("Listening on port 5000...")
 
 
 @matcher_app.route('/api/v1/posts/<post_uuid>/matches', methods=['GET'])

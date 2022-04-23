@@ -1,4 +1,4 @@
-import asyncio
+import threading
 from db.MongoDB import MongoDB
 from service.LangTranslator import LangTranslator
 from core.KeywordExtractor import KeywordExtractor
@@ -10,7 +10,6 @@ class Service:
     keywordExtractor = KeywordExtractor()
     lang_translator = LangTranslator('en')
     posts_matcher = PostsMatcher()
-    loop = asyncio.get_event_loop()
 
 
     def __init__(self):
@@ -32,16 +31,12 @@ class Service:
         
         return True
 
-    
-    def delete_matching_pairs(self, post_uuid):
-        self.mongo.delete_matching_pairs(post_uuid)
-
 
     def process_post(self, post):
-        self.loop.run_until_complete(self.__async_process_post(post))
+        threading.Thread(target=self.__process_post_task, args=(post,)).start()
 
 
-    async def __async_process_post(self, post):
+    def __process_post_task(self, post):
         ai_post = self.mongo.get_ai_post_data(post['post_uuid'])
         if ai_post is None:
             ai_post = {'post_uuid': post['post_uuid']}
@@ -56,9 +51,10 @@ class Service:
         ai_post.update({'status': 'keywords_just_set', 'keywords': keywords})
         self.mongo.update_ai_post_data(ai_post)
 
-        ai_post.update({'status': 'searching_matches', 'matches': []})
+        ai_post.update({'status': 'searching_matches'})
         self.mongo.update_ai_post_data(ai_post)
         
+        self.delete_matching_pairs(ai_post['post_uuid'])
         self.posts_matcher.update_matches(ai_post)
 
         ai_post.update({'status': 'matches_just_set'})
@@ -67,15 +63,19 @@ class Service:
         ai_post.update({'status': 'processed'})
         self.mongo.update_ai_post_data(ai_post)
 
+
+    def delete_matching_pairs(self, post_uuid):
+        self.mongo.delete_matching_pairs(post_uuid)
+
     
     def get_matches(self, post_uuid):
         ai_post = self.mongo.get_ai_post_data(post_uuid)
         if ai_post is None:
             print("Post with uuid: " + post_uuid + " not found")
-            return []
+            return {'post_status': 'not_found', 'matches': []}
         if ai_post['status'] != 'processed':
             print("Can't get matches for post with status: " + ai_post['status'])
-            return []
+            return {'post_status': ai_post['status'], 'matches': []}
 
         matching_pairs = self.mongo.get_matching_pairs(post_uuid)
         matches = []
@@ -87,8 +87,4 @@ class Service:
             else:
                 matches.append(pair['post_uuid_1'])
         
-        return matches
-
-
-    def __del__(self):
-        self.loop.close()
+        return {'post_status': ai_post['status'], 'matches': matches}

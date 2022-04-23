@@ -34,13 +34,26 @@ class MongoDB:
         return self.ai_posts_data.find()
 
 
-    def add_matching_pair(self, post_uuid_0, post_uuid_1):
+    def add_matching_pair(self, post_uuid_1, post_uuid_2):
         self.matching_pairs.insert_one({
-            'post_uuid_0': post_uuid_0,
-            'post_uuid_1': post_uuid_1
+            'post_uuid_1': post_uuid_1,
+            'post_uuid_2': post_uuid_2
         })
 
     
     def delete_matching_pairs(self, post_uuid):
-        self.matching_pairs.delete_many({'post_uuid_0': post_uuid})
-        self.matching_pairs.delete_many({'post_uuid_1': post_uuid})
+        self.matching_pairs.delete_many({
+            '$or': [
+                {'post_uuid_1': post_uuid},
+                {'post_uuid_2': post_uuid}
+            ]
+        })
+
+    
+    def get_matching_pairs(self, post_uuid):
+        return self.matching_pairs.find({
+            '$or': [
+                {'post_uuid_1': post_uuid},
+                {'post_uuid_2': post_uuid}
+            ]
+        })

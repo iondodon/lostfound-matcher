@@ -67,6 +67,28 @@ class Service:
         ai_post.update({'status': 'processed'})
         self.mongo.update_ai_post_data(ai_post)
 
+    
+    def get_matches(self, post_uuid):
+        ai_post = self.mongo.get_ai_post_data(post_uuid)
+        if ai_post is None:
+            print("Post with uuid: " + post_uuid + " not found")
+            return []
+        if ai_post['status'] != 'processed':
+            print("Can't get matches for post with status: " + ai_post['status'])
+            return []
+
+        matching_pairs = self.mongo.get_matching_pairs(post_uuid)
+        matches = []
+        for pair in matching_pairs:
+            if pair['post_uuid_1'] == pair['post_uuid_2']:
+                raise Exception('Matching pair contains same post uuid')
+            if pair['post_uuid_1'] == post_uuid:
+                matches.append(pair['post_uuid_2'])
+            else:
+                matches.append(pair['post_uuid_1'])
+        
+        return matches
+
 
     def __del__(self):
         self.loop.close()

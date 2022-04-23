@@ -10,10 +10,10 @@ service = Service()
 print("Listening...")
 
 
-@matcher_app.route('/api/v1/posts/<postUuid>/matches', methods=['GET'])
-def matches(postUuid):
-    # convert keywords to json string 
-    return json.dumps()
+@matcher_app.route('/api/v1/posts/<post_uuid>/matches', methods=['GET'])
+def matches(post_uuid):
+    matches = service.get_matches(post_uuid)
+    return json.dumps(matches)
 
 
 @matcher_app.route('/api/v1/posts/process', methods=['POST'])

@@ -1,8 +1,8 @@
 import asyncio
-from MongoDB import MongoDB
-from LangTranslator import LangTranslator
-from KeywordExtractor import KeywordExtractor
-from PostsMatcher import PostsMatcher
+from db.MongoDB import MongoDB
+from service.LangTranslator import LangTranslator
+from core.KeywordExtractor import KeywordExtractor
+from core.PostsMatcher import PostsMatcher
 
 
 class Service:

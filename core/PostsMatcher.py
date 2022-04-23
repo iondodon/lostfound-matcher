@@ -1,4 +1,4 @@
-from MongoDB import MongoDB
+from db.MongoDB import MongoDB
 
 
 class PostsMatcher:
@@ -21,6 +21,6 @@ class PostsMatcher:
                 continue
             if match_candidate['keywords'] is None or len(match_candidate['keywords']) == 0:
                 continue
-            
+
             if len(set(match_candidate['keywords']).intersection(updated_ai_post['keywords'])) > 0:
                 self.mongo.add_matching_pair(updated_ai_post['post_uuid'], match_candidate['post_uuid'])

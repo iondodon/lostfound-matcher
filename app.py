@@ -1,5 +1,5 @@
 from flask import Flask, request
-from Service import Service
+from service.Service import Service
 import json
 
 

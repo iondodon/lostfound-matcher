@@ -41,10 +41,15 @@ class PostsMatcher:
             if pair['post_uuid_1'] == pair['post_uuid_2']:
                 raise Exception('Matching pair contains same post uuid')
 
+            return_pair = {'number_intersected_keywords': pair['number_intersected_keywords']}
             if pair['post_uuid_1'] == post_uuid:
-                matches.append(pair['post_uuid_2'])
+                matched_post_uuid = pair['post_uuid_2']
             else:
-                matches.append(pair['post_uuid_1'])
+                matched_post_uuid = pair['post_uuid_2']
+
+            return_pair = return_pair | {'matched_post_uuid': matched_post_uuid}
+            if not any(d['matched_post_uuid'] == matched_post_uuid for d in matches):
+                matches.append(return_pair)
         
         return {'post_status': ai_post['status'], 'matches': matches}
 

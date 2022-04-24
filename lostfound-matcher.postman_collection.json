@@ -1,0 +1,79 @@
+{
+	"info": {
+		"_postman_id": "91816efd-bffe-41ef-9333-9990e8d918b7",
+		"name": "lostfound-matcher",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "New Post",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"post_uuid\": \"f7nbfv4d-72d6-bc9b-abv3-0a74n2b69a1\",\n    \"details\": \"Pisica meu este pierduta\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{lostfound-matcher-host}}/api/v1/posts/process",
+					"host": [
+						"{{lostfound-matcher-host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"posts",
+						"process"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Post",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{lostfound-matcher-host}}/api/v1/posts/f7nbfv4d-72d6-bc9b-abv3-0a74n2b69a1",
+					"host": [
+						"{{lostfound-matcher-host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"posts",
+						"f7nbfv4d-72d6-bc9b-abv3-0a74n2b69a1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get matches",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{lostfound-matcher-host}}/api/v1/posts/f7nbfv4d-72d6-bc9b-abv3-0a74n2b69a1/matches",
+					"host": [
+						"{{lostfound-matcher-host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"posts",
+						"f7nbfv4d-72d6-bc9b-abv3-0a74n2b69a1",
+						"matches"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

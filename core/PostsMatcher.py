@@ -22,5 +22,29 @@ class PostsMatcher:
             if match_candidate['keywords'] is None or len(match_candidate['keywords']) == 0:
                 continue
 
-            if len(set(match_candidate['keywords']).intersection(updated_ai_post['keywords'])) > 0:
-                self.mongo.add_matching_pair(updated_ai_post['post_uuid'], match_candidate['post_uuid'])
+            numnber_intersected_keywords = len(set(match_candidate['keywords']).intersection(updated_ai_post['keywords']))
+            if numnber_intersected_keywords > 0:
+                matching_pair = {
+                    'post_uuid_1': updated_ai_post['post_uuid'], 
+                    'post_uuid_2': match_candidate['post_uuid'],
+                    'number_intersected_keywords': numnber_intersected_keywords
+                }
+                self.mongo.add_matching_pair(matching_pair)
+
+    
+    def get_matches(self, post_uuid):
+        ai_post = self.mongo.get_ai_post_data(post_uuid)
+
+        matching_pairs = self.mongo.get_matching_pairs(post_uuid)
+        matches = []
+        for pair in matching_pairs:
+            if pair['post_uuid_1'] == pair['post_uuid_2']:
+                raise Exception('Matching pair contains same post uuid')
+
+            if pair['post_uuid_1'] == post_uuid:
+                matches.append(pair['post_uuid_2'])
+            else:
+                matches.append(pair['post_uuid_1'])
+        
+        return {'post_status': ai_post['status'], 'matches': matches}
+

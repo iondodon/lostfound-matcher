@@ -4,6 +4,7 @@ from tqdm.notebook import tqdm
 from re import sub
 from sklearn.feature_extraction.text import CountVectorizer
 from numpy import array, log
+from Logger import logger
 
 class KeywordExtractor:
     dict_idf = {}

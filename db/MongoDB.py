@@ -34,11 +34,8 @@ class MongoDB:
         return self.ai_posts_data.find()
 
 
-    def add_matching_pair(self, post_uuid_1, post_uuid_2):
-        self.matching_pairs.insert_one({
-            'post_uuid_1': post_uuid_1,
-            'post_uuid_2': post_uuid_2
-        })
+    def add_matching_pair(self, matching_pair):
+        self.matching_pairs.insert_one(matching_pair)
 
     
     def delete_matching_pairs(self, post_uuid):

@@ -1,7 +1,7 @@
 import threading
 from db.MongoDB import MongoDB
 from service.LangTranslator import LangTranslator
-from core.KeywordExtractor import KeywordExtractor
+from core.ai.KeywordExtractor import KeywordExtractor
 from core.PostsMatcher import PostsMatcher
 
 
@@ -71,21 +71,21 @@ class Service:
     
     def get_matches(self, post_uuid):
         ai_post = self.mongo.get_ai_post_data(post_uuid)
+        
         if ai_post is None:
             print("Post with uuid: " + post_uuid + " not found")
-            return {'post_status': 'not_found', 'matches': []}
+            return {
+                'post_status': 'not_found', 
+                'matches': [], 'message': 
+                'Post with uuid: ' + post_uuid + ' not found'
+            }
+
         if ai_post['status'] != 'processed':
             print("Can't get matches for post with status: " + ai_post['status'])
-            return {'post_status': ai_post['status'], 'matches': []}
+            return {
+                'post_status': ai_post['status'], 
+                'matches': [], 
+                'message': 'Can\'t get matches for post with status: ' + ai_post['status']
+            }
 
-        matching_pairs = self.mongo.get_matching_pairs(post_uuid)
-        matches = []
-        for pair in matching_pairs:
-            if pair['post_uuid_1'] == pair['post_uuid_2']:
-                raise Exception('Matching pair contains same post uuid')
-            if pair['post_uuid_1'] == post_uuid:
-                matches.append(pair['post_uuid_2'])
-            else:
-                matches.append(pair['post_uuid_1'])
-        
-        return {'post_status': ai_post['status'], 'matches': matches}
+        return self.posts_matcher.get_matches(post_uuid)

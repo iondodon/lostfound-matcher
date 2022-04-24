@@ -3,3 +3,5 @@ wiki_tfidf_stems.csv
 wiki_tfidf_terms.csv
 /__pycache__/
 /data/
+
+**/__pycache__/

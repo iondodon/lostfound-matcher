@@ -1,13 +1,14 @@
 from flask import Flask, request
 from service.Service import Service
 import json
+from Logger import logger
 
 
 matcher_app = Flask(__name__)
 service = Service()
 
 
-print("Listening on port 5000...")
+logger.info("Listening on port 5000...")
 
 
 @matcher_app.route('/api/v1/posts/<post_uuid>/matches', methods=['GET'])

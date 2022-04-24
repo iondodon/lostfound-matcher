@@ -20,8 +20,8 @@ class KeywordExtractor:
                         cells = line.split(",")
                         idf = float(sub("[^0-9.]", "", cells[3]))
                         self.dict_idf[cells[0]] = idf
-                    except: 
-                        print("Error on: " + line)
+                    except:
+                        logger.error("Error on: " + line)
                     finally:
                         pbar.update(1)
 
@@ -45,7 +45,7 @@ class KeywordExtractor:
                 pbar.update(1)
 
         for j in range(tfidf.shape[0]):
-            print("Keywords of article", str(j+1), words[tfidf[j, :].argsort()[-num_keywords:][::-1]])
+            logger.info("Keywords of article", str(j+1), words[tfidf[j, :].argsort()[-num_keywords:][::-1]])
 
         return words[tfidf[0, :].argsort()[-num_keywords:][::-1]]
     

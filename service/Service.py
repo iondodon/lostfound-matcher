@@ -3,6 +3,7 @@ from db.MongoDB import MongoDB
 from service.LangTranslator import LangTranslator
 from core.ai.KeywordExtractor import KeywordExtractor
 from core.PostsMatcher import PostsMatcher
+from Logger import logger
 
 
 class Service:
@@ -20,10 +21,10 @@ class Service:
         ai_post = self.mongo.get_ai_post_data(post_uuid)
 
         if ai_post is None:
-            print("Post with uuid: " + post_uuid + " not found")
+            logger.info('Post with uuid: ' + post_uuid + ' not found')
             return False
         if ai_post['status'] != 'processed':
-            print("Can't delete post with status: " + ai_post['status'])
+            logger.info('Can\'t delete post with status: ' + ai_post['status'])
             return False
 
         self.delete_matching_pairs(post_uuid)
@@ -73,7 +74,7 @@ class Service:
         ai_post = self.mongo.get_ai_post_data(post_uuid)
         
         if ai_post is None:
-            print("Post with uuid: " + post_uuid + " not found")
+            logger.info("Post with uuid: " + post_uuid + " not found")
             return {
                 'post_status': 'not_found', 
                 'matches': [], 'message': 
@@ -81,7 +82,7 @@ class Service:
             }
 
         if ai_post['status'] != 'processed':
-            print("Can't get matches for post with status: " + ai_post['status'])
+            logger.info("Can't get matches for post with status: " + ai_post['status'])
             return {
                 'post_status': ai_post['status'], 
                 'matches': [], 

@@ -17,9 +17,11 @@ class PostsMatcher:
         for match_candidate in all_ai_posts:
             if match_candidate['post_uuid'] == updated_ai_post['post_uuid']:
                 continue
-            if match_candidate['status'] != 'processed':
+            if match_candidate['status'] != 'ready':
                 continue
             if match_candidate['keywords'] is None or len(match_candidate['keywords']) == 0:
+                continue
+            if match_candidate['type'] == updated_ai_post['type']:
                 continue
 
             numnber_intersected_keywords = len(set(match_candidate['keywords']).intersection(updated_ai_post['keywords']))

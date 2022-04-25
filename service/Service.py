@@ -11,6 +11,7 @@ class Service:
     keywordExtractor = KeywordExtractor()
     lang_translator = LangTranslator('en')
     posts_matcher = PostsMatcher()
+    threadLock = threading.Lock()
 
 
     def __init__(self):
@@ -23,7 +24,7 @@ class Service:
         if ai_post is None:
             logger.info('Post with uuid: ' + post_uuid + ' not found')
             return False
-        if ai_post['status'] != 'processed':
+        if ai_post['status'] != 'ready':
             logger.info('Can\'t delete post with status: ' + ai_post['status'])
             return False
 
@@ -38,11 +39,16 @@ class Service:
 
 
     def __process_post_task(self, post):
+        self.threadLock.acquire()
+
         ai_post = self.mongo.get_ai_post_data(post['post_uuid'])
         if ai_post is None:
             ai_post = {'post_uuid': post['post_uuid']}
 
-        ai_post.update({'status': 'processing'})
+        self.validate_updated_post_data(post)
+
+        ai_post.update(post)
+        ai_post.update({'status': 'updating_data'})
         self.mongo.update_ai_post_data(ai_post)
 
         ai_post.update({'status': 'searching_keywords', 'keywords': []})
@@ -62,8 +68,16 @@ class Service:
         ai_post.update({'status': 'matches_just_set'})
         self.mongo.update_ai_post_data(ai_post)
 
-        ai_post.update({'status': 'processed'})
+        ai_post.update({'status': 'ready'})
         self.mongo.update_ai_post_data(ai_post)
+    
+        self.threadLock.release()
+
+
+    def validate_updated_post_data(self, post):
+        if post['type'] is None:
+            logger.info('Post type is not specified')
+            raise Exception('Post type is not specified')
 
 
     def delete_matching_pairs(self, post_uuid):
@@ -76,15 +90,15 @@ class Service:
         if ai_post is None:
             logger.info("Post with uuid: " + post_uuid + " not found")
             return {
-                'post_status': 'not_found', 
+                'status': 'not_found', 
                 'matches': [], 'message': 
                 'Post with uuid: ' + post_uuid + ' not found'
             }
 
-        if ai_post['status'] != 'processed':
+        if ai_post['status'] != 'ready':
             logger.info("Can't get matches for post with status: " + ai_post['status'])
             return {
-                'post_status': ai_post['status'], 
+                'status': ai_post['status'], 
                 'matches': [], 
                 'message': 'Can\'t get matches for post with status: ' + ai_post['status']
             }

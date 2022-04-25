@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"post_uuid\": \"f7nbfv4d-72d6-bc9b-abv3-0a74n2b69a1\",\n    \"details\": \"Pisica meu este pierduta\"\n}",
+					"raw": "{\n    \"post_uuid\": \"f7nvfv4d-72d6-bc9b-abv3-0a74n2b69a1\",\n    \"details\": \"Cainele meu este pierduta\",\n    \"type\": \"lost\" \n}",
 					"options": {
 						"raw": {
 							"language": "json"

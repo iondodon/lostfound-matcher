@@ -45,7 +45,7 @@ class KeywordExtractor:
                 pbar.update(1)
 
         for j in range(tfidf.shape[0]):
-            logger.info("Keywords of article", str(j+1), words[tfidf[j, :].argsort()[-num_keywords:][::-1]])
+            logger.info("Keywords of article %s: %s", str(j+1), words[tfidf[j, :].argsort()[-num_keywords:][::-1]])
 
         return words[tfidf[0, :].argsort()[-num_keywords:][::-1]]
     

@@ -8,7 +8,9 @@ services:
     depends_on:
       - mongodb
     volumes:
-      - ./:/lostfound-matcher
+      - ./src:/lostfound-matcher/src
+      - ./data:/lostfound-matcher/data
+      - ./mongo-config:/lostfound-matcher/mongo-config
 
   mongodb:
     image: mongo:5.0.7

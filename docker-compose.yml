@@ -11,6 +11,8 @@ services:
       - ./src:/lostfound-matcher/src
       - ./data:/lostfound-matcher/data
       - ./mongo_config:/lostfound-matcher/mongo_config
+    networks:
+      - lostfound-network
 
   mongodb:
     image: mongo:5.0.7
@@ -22,3 +24,10 @@ services:
       - ./mongo_config:/data/configdb
     ports:
       - "27017:27017"
+    networks:
+      - lostfound-network
+
+
+networks:
+  lostfound-network:
+    external: true

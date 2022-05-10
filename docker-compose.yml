@@ -10,7 +10,7 @@ services:
     volumes:
       - ./src:/lostfound-matcher/src
       - ./data:/lostfound-matcher/data
-      - ./mongo-config:/lostfound-matcher/mongo-config
+      - ./mongo_config:/lostfound-matcher/mongo_config
 
   mongodb:
     image: mongo:5.0.7

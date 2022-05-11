@@ -11,7 +11,7 @@ class KeywordExtractor:
     num_lines = None
 
     def __init__(self):
-        self.num_lines = sum(1 for line in open("wiki_tfidf_terms.csv"))
+        self.num_lines = sum(1 for line in open("wiki_tfidf_stems.csv"))
         
         with open("wiki_tfidf_stems.csv") as file:
             with tqdm(total=self.num_lines) as pbar:

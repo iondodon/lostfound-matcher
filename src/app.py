@@ -21,6 +21,9 @@ def matches(post_uuid):
 @matcher_app.route('/api/v1/posts/process', methods=['POST'])
 def process_post():
     post = request.get_json()
+
+    logger.info("Processing post: {}".format(post))
+
     service.process_post(post)
     return Response(json.dumps({'status': 'ok'}), mimetype='application/json')
 

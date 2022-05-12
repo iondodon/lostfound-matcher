@@ -25,7 +25,7 @@ class KeywordExtractor:
                     finally:
                         pbar.update(1)
 
-    def extract_keywords(self, text, num_keywords=10):
+    def extract_keywords(self, text, num_keywords=4):
         text_clean = self.__clean_text(text)
         text_clean = self.__exclude_words(text_clean)
         text_clean_stemmed = self.__stemm_text(text_clean)

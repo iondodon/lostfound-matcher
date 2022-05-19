@@ -53,5 +53,5 @@ class PostsMatcher:
             if not any(d['matched_post_uuid'] == matched_post_uuid for d in matches):
                 matches.append(return_pair)
         
-        return {'post_status': ai_post['status'], 'matches': matches}
+        return {'status': ai_post['status'], 'matches': matches}
 

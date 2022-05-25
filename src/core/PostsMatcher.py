@@ -47,7 +47,7 @@ class PostsMatcher:
             if pair['post_uuid_1'] == post_uuid:
                 matched_post_uuid = pair['post_uuid_2']
             else:
-                matched_post_uuid = pair['post_uuid_2']
+                matched_post_uuid = pair['post_uuid_1']
 
             return_pair = return_pair | {'matched_post_uuid': matched_post_uuid}
             if not any(d['matched_post_uuid'] == matched_post_uuid for d in matches):

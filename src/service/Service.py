@@ -36,10 +36,11 @@ class Service:
 
     def process_post(self, post):
         threading.Thread(target=self.__process_post_task, args=(post,)).start()
-
+    
 
     def __process_post_task(self, post):
         self.threadLock.acquire()
+        post = self.__aggregate_post_details(post)
 
         ai_post = self.mongo.get_ai_post_data(post['post_uuid'])
         if ai_post is None:
@@ -72,6 +73,34 @@ class Service:
         self.mongo.update_ai_post_data(ai_post)
     
         self.threadLock.release()
+
+
+    def __aggregate_post_details(self, post):
+        details = post['details'] + '\n'
+
+        # if furColor is not null
+        if post['furColor'] is not None:
+            details += post['furColor'] + '\n'
+        if post['breed'] is not None:
+            details += post['breed'] + '\n'
+        if post['species'] is not None:
+            details += post['species'] + '\n'
+        if post['nationality'] is not None:
+            details += post['nationality'] + '\n'
+        if post['age'] is not None:
+            details += post['age'] + '\n'
+        if post['gender'] is not None:
+            details += post['gender'] + '\n'
+        if post['eyeColor'] is not None:
+            details += post['eyeColor'] + '\n'
+        if post['specialSigns'] is not None:
+            details += post['specialSigns'] + '\n'
+        if post['specialSigns'] is not None:
+            details += post['specialSigns'] + '\n'
+
+        post['details'] = details
+        return post
+
 
 
     def validate_updated_post_data(self, post):

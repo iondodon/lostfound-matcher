@@ -25,7 +25,9 @@ class KeywordExtractor:
                     finally:
                         pbar.update(1)
 
-    def extract_keywords(self, text, num_keywords=4):
+    def extract_keywords(self, text):
+        num_keywords = self.__calculate_num_keywords(text)
+
         text_clean = self.__clean_text(text)
         text_clean = self.__exclude_words(text_clean)
         text_clean_stemmed = self.__stemm_text(text_clean)
@@ -48,9 +50,21 @@ class KeywordExtractor:
             logger.info("Keywords of article %s: %s", str(j+1), words[tfidf[j, :].argsort()[-num_keywords:][::-1]])
 
         return words[tfidf[0, :].argsort()[-num_keywords:][::-1]]
+
+    
+    def __calculate_num_keywords(self, text):
+        percentage_of_words = 40
+        num_words = len(text.split())
+
+        if num_words < 10:
+            return num_words
+
+        return num_words * (percentage_of_words / 100)
+
     
     def __exclude_words(self, text):
-        words_to_exclude = ["lost", "found"]
+        with open("words_to_exclude.csv") as file:
+            words_to_exclude = file.read().splitlines()
         return " ".join([w for w in text.split() if w not in words_to_exclude])
 
     def __clean_text(self, text):

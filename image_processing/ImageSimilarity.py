@@ -84,7 +84,7 @@ def get_image_from_URL(url):
 
 list_of_image_urls = [
     "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
-    "https://cdn.searchenginejournal.com/wp-content/uploads/2018/04/durable-urls.png"
+    "https://arc-anglerfish-washpost-prod-washpost.s3.amazonaws.com/public/WALN4MAIT4I6VLRIPUMJQAJIME.jpg"
 ]
 
 

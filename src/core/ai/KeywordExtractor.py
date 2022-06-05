@@ -59,7 +59,7 @@ class KeywordExtractor:
         if num_words < 10:
             return num_words
 
-        return num_words * (percentage_of_words / 100)
+        return num_words * (percentage_of_words // 100)
 
     
     def __exclude_words(self, text):

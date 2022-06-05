@@ -76,27 +76,27 @@ class Service:
 
 
     def __aggregate_post_details(self, post):
-        details = post['details'] + '\n'
+        details = post['details'] + ' '
 
         # if furColor is not null
         if post['furColor'] is not None:
-            details += post['furColor'] + '\n'
+            details += post['furColor'] + ' '
         if post['breed'] is not None:
-            details += post['breed'] + '\n'
+            details += post['breed'] + ' '
         if post['species'] is not None:
-            details += post['species'] + '\n'
+            details += post['species'] + ' '
         if post['nationality'] is not None:
-            details += post['nationality'] + '\n'
+            details += post['nationality'] + ' '
         if post['age'] is not None:
-            details += post['age'] + '\n'
+            details += post['age'] + ' '
         if post['gender'] is not None:
-            details += post['gender'] + '\n'
+            details += post['gender'] + ' '
         if post['eyeColor'] is not None:
-            details += post['eyeColor'] + '\n'
+            details += post['eyeColor'] + ' '
         if post['specialSigns'] is not None:
-            details += post['specialSigns'] + '\n'
+            details += post['specialSigns'] + ' '
         if post['specialSigns'] is not None:
-            details += post['specialSigns'] + '\n'
+            details += post['specialSigns'] + ' '
 
         post['details'] = details
         return post

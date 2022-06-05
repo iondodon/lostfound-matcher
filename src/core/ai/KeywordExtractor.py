@@ -63,7 +63,7 @@ class KeywordExtractor:
 
     
     def __exclude_words(self, text):
-        with open("words_to_exclude.csv") as file:
+        with open("words_to_ignore.csv") as file:
             words_to_exclude = file.read().splitlines()
         return " ".join([w for w in text.split() if w not in words_to_exclude])
 
